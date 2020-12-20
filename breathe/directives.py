@@ -147,11 +147,15 @@ class DoxygenFunctionDirective(BaseDirective):
         paramQual = parser._parse_parameters_and_qualifiers(paramMode='function')
         # now erase the parameter names
         for p in paramQual.args:
+            if p.arg is None:
+                assert p.ellipsis
+                continue
             declarator = p.arg.type.decl
             while hasattr(declarator, 'next'):
                 declarator = declarator.next
             assert hasattr(declarator, 'declId')
             declarator.declId = None
+            p.arg.init = None
         return paramQual
 
     def create_function_signature(self, node_stack, project_info, filter_, target_handler,
@@ -221,14 +225,15 @@ class DoxygenFunctionDirective(BaseDirective):
             signatures.append(signature)
 
             match = re.match(r"([^(]*)(.*)", signature)
-            match_args = match.group(2)
+            _match_args = match.group(2)
 
             # Parse the text to find the arguments
-            match_args = self.parse_args(match_args)
+            match_args = self.parse_args(_match_args)
 
             # Match them against the arg spec
             if args == match_args:
                 return entry
+
         raise UnableToResolveFunctionError(signatures)
 
 

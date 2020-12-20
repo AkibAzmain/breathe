@@ -172,9 +172,14 @@ Change Log
 
 Inspired by `Keepachangelog.com <http://keepachangelog.com/>`__.
 
-- Unreleased - Breathe v4.25.0
+- 2020-12-16 - Breathe v4.25.1
+
+  - Addendum to #606, for functions with '...'. #609
+
+- 2020-12-15 - Breathe v4.25.0
 
   - Add support for \parblock parsing and rendering. #603
+  - Allow lookup in doxygenfunction without writing param names. #606
 
 - 2020-12-01 - Breathe v4.24.1
 
